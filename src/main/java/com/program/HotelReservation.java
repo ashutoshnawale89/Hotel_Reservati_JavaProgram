@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 
 public class HotelReservation {
@@ -56,10 +58,42 @@ public class HotelReservation {
 			System.out.println("Price is : "+(hotelRate3*stayDays));
 		}	
 	}
+	
+	public void regexExpressionDate() {
+		Scanner sc=new Scanner(System.in);
+		HotelReservation obj=new HotelReservation();
+		int dateVisit[]=new int [3];
+		int dateCheckout[]=new int[3];
+		try {
+		String regexExpr="^[0-9]{1,2}[/]{1}[0-9]{1,2}[/]{1}[0-9]{4}$";
+		System.out.println("Enter Date 1 for the format of DD/MM/YYYY  ");
+		String date1=sc.next();
+		System.out.println("Enter Date 2 for the format of DD/MM/YYYY  ");
+		String date2=sc.next();
+		
+		boolean result=Pattern.compile(regexExpr).matcher(date1).matches();
+		
+		if (result==true) {
+			String[] convert = date1.split("[/]", 3);
+			String[] convert2 = date2.split("[/]", 3);
+			for (int i=0; i< convert.length;i++) {
+				dateVisit[i]=Integer.parseInt(convert[i]);  
+				dateCheckout[i]=Integer.parseInt(convert2[i]); 
+			}
+		}			
+		}
+		catch (PatternSyntaxException e){
+	        throw new PatternSyntaxException(e.getMessage(),e.getPattern(),e.getIndex());
+		}
+		
+		try {
+			obj.cheapestHotel(dateVisit, dateCheckout, "reward");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	public static void main(String[] args) throws Exception {
 		HotelReservation obj=new HotelReservation();
-		int date1[]={11,10,2022};
-		int date2[]={12,10,2022};
-		obj.cheapestHotel(date1, date2,"reward");
+		obj.regexExpressionDate();
 	}
 }
