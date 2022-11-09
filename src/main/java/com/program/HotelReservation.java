@@ -1,42 +1,67 @@
 package com.program;
 
-import java.text.ParseException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class HotelReservation {
+	public void cheapestHotel(int date1[],int date2[],String customerStatus) throws Exception{
+		Scanner sc =new Scanner(System.in);
+		int stayDays=date2[0]-date1[0]+1;
+		String hotel1="Lakewood", hotel2="Ridgewood",hotel3="Bridgewood";
+		int rating1=3;
+		int rating2=4;
+		int rating3=5;
+		int hotelRate1,hotelRate2,hotelRate3;
+		String days;
+		try {
+			LocalDate someDate=LocalDate.of(date1[2], date1[1], date1[0]);
+			days=someDate.getDayOfWeek().toString();
+		}
+		catch (DateTimeException e) {
+			throw new Exception(e);
+		}
+		if ("SUNDAY".equals(days) || "SATURDAY".equals(days)) {
+			if ("reward"==customerStatus) {
+				hotelRate1=80;  hotelRate2=150;   hotelRate3=100;
+			}else {
+				hotelRate1=150;  hotelRate2=180;   hotelRate3=210;
+			}
+		}
+		else {
+			if ("reward"==customerStatus) {
+				hotelRate1=80;  hotelRate2=100;   hotelRate3=40;
+			}
+			else {
+				hotelRate1=150;  hotelRate2=180;   hotelRate3=210;
+			}
+		}
+		int arr[]= {rating1,rating2,rating3};
+		Arrays.sort(arr);
+		int rating=arr[arr.length-1];
+		if (rating == rating1) {
+			System.out.println("The Cheapest Best Rated Hotel is : "+hotel1+" The Rating is :"+rating1);
+			System.out.println("Price is : "+(hotelRate1*stayDays));
+		}
+		if (rating == rating2) {
+			System.out.println("The Cheapest Best Rated Hotel is : "+hotel2+" The Rating is :"+rating2);
+			System.out.println("Price is : "+(hotelRate2*stayDays));
+		}
+		if (rating == rating3) {
+			System.out.println("The Cheapest Best Rated Hotel is : "+hotel3+" The Rating is :"+rating3);
+			System.out.println("Price is : "+(hotelRate3*stayDays));
+		}
 
 
-public class HotelReservation { 
-	HashMap<String,ArrayList<String>> rewardCustomer=new HashMap<String,ArrayList<String>>();
-	
-	
-	public void specialCustomerRate(String hotelName,String regularRate,String weekendRate,String rewardRateRegular,String rewardRateWeekend) {
-		ArrayList<String> rate=new ArrayList<String>();
-		rate.add("Weekend Rate is : "+weekendRate);
-		rate.add("Regular Rate is : "+regularRate);
-		rate.add("Reward Rate is :"+rewardRateRegular);
-		rate.add("Weekend Rate For Reward : "+ rewardRateWeekend);
-		rewardCustomer.put(hotelName, rate);
 	}
-	
-	public static void main(String args[]) throws ParseException {
-		HotelReservation obj =new HotelReservation();
-		 String hotelNam1="Lakewood",hotelNam2="Bridgewood",hotelNam3="Ridgewood";
-		 String regulrHotelPric1="110", regulrHotelPric2="160" ,regulrHotelPric3="180";
-		 String weekendHotelPric1="150", weekendHotelPric2="180",weekendHotelPric3="210";
-		 String rewardRegulrHotelPric1="80", rewardRegulrHotelPric2="110",rewardRegulrHotelPric3="40";
-		 String rewardWeekendHotelPric1="80", rewardWeekendHotelPric2="150",rewardWeekendHotelPric3="100";
-
-		 obj.specialCustomerRate(hotelNam1, regulrHotelPric1,weekendHotelPric1, rewardRegulrHotelPric1,rewardWeekendHotelPric1);
-		 obj.specialCustomerRate(hotelNam2, regulrHotelPric2,weekendHotelPric2, rewardRegulrHotelPric2,rewardWeekendHotelPric2);
-		 obj.specialCustomerRate(hotelNam3, regulrHotelPric3,weekendHotelPric3, rewardRegulrHotelPric3,rewardWeekendHotelPric3);
-		 
-		 for(Map.Entry m:obj.rewardCustomer.entrySet()) {
-			 System.out.println(m.getKey()+"  "+m.getValue());
-		 }
-		 // format put the date is (dd/mm/yyyy)
-				int date1[]= {10,11,2020};
-				int date2[]= {11,11,2020};
-				
-		
+	public static void main(String[] args) throws Exception {
+		HotelReservation obj=new HotelReservation();
+		int date1[]={9,10,2022};
+		int date2[]={10,10,2022};
+		obj.cheapestHotel(date1, date2,"reward");
 	}
 }
